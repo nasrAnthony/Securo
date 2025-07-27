@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Security Systems{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/home/" class="logo">
+        SECUR<span class="eye-wrapper">
+            <svg class="eye-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="black" />
+                <circle id="pupil" cx="32" cy="32" r="8" fill="white" />
+            </svg>
+            <div class="recording-dot"></div>
+            </span>
+        </a>
+      </div>
+      <div class="nav-center">
+        <a href="/home/">HOME</a>
+        <a href="/about/">ABOUT</a>
+        <a href="/contact/">CONTACT</a>
+      </div>
+      <div class="nav-right"></div> <!-- empty div for spacing -->
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+    <script>
+    document.addEventListener('mousemove', function(e) {
+        const eye = document.querySelector('.eye-icon');
+        const pupil = document.getElementById('pupil');
+        const rect = eye.getBoundingClientRect();
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+
+        const angle = Math.atan2(dy, dx);
+
+        const radius = 8; // max pupil movement radius
+        const offsetX = Math.cos(angle) * radius;
+        const offsetY = Math.sin(angle) * radius;
+
+        pupil.setAttribute('cx', 32 + offsetX);
+        pupil.setAttribute('cy', 32 + offsetY);
+    });
+    </script>
+
+</body>
+</html>
