@@ -4,10 +4,10 @@ from django.http import HttpResponse
 # app/views.py
 
 def home(request):
-    return HttpResponse("Welcome to the Securo Home page!")
+    return render(request, 'home.html')
 
 def contact(request):
-    return HttpResponse("Welcome to the Securo Contact page!")
+    return render(request, 'contact.html')
 
 def about(request):
-    return HttpResponse("Welcome to the Securo About page!")
+    return render(request, 'about.html')
