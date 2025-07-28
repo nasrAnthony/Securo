@@ -3,7 +3,7 @@
 {% block title %}About Us - Security Systems{% endblock %}
 
 {% block content %}
-<section class="about-section animate-on-load">
+<section class="about-section animate-on-scroll from-left">
   <h2 class="section-title"><span class="highlight-you">Our</span> Story</h2>
   <p class="section-text">
     Securo began with one goal in mind — to make modern, reliable home and business security simple and accessible for every Ottawa resident. As a locally founded startup, we’re proud to serve our neighbors and community with top-tier installation and personalized service. From small beginnings, we’ve grown into a trusted name in security by putting care, quality, and transparency at the heart of everything we do.
@@ -11,9 +11,9 @@
   <a href="/quote-form/" class="cta-button about-section-button">Get Your Free Quote!</a>
 </section>
 
-<section class="about-section offerings-section animate-on-load">
+<section class="about-section offerings-section animate-on-scroll from-right">
   <h2 class="section-title">What We <span class="highlight-you">Offer</span></h2>
-  <div class="offerings-grid">
+  <div class="offerings-grid animate-on-scroll from-left">
     <div class="offering">
       <span class="offering-icon">📷</span>
       <h3>Camera Systems</h3>
@@ -35,25 +35,27 @@
       <p>Access your cameras and alerts from anywhere with our seamless setup and support.</p>
     </div>
   </div>
+
+  <a href="/contact/" class="cta-button about-section-button">Contact us Today!</a>
 </section>
 
-<section class="about-section animate-on-load">
-  <h2 class="section-title">Why Choose <span class="highlight-you">Us</span></h2>
-  <div class="pillars-grid">
+<section class="about-section animate-on-scroll from-left">
+  <h2 class="section-title">Why Choose <span class="highlight-you">Securo</span>?</h2>
+  <div class="pillars-grid animate-on-scroll from-right">
     <div class="pillar">
-      <h3>✅ Locally Owned</h3>
+      <h3>✔️ Locally Owned</h3>
       <p>We’re part of the Ottawa community and committed to protecting our neighbors.</p>
     </div>
     <div class="pillar">
-      <h3>✅ Affordable Packages</h3>
+      <h3>✔️ Affordable Packages</h3>
       <p>Tailored security solutions that don’t break the bank — with no hidden fees.</p>
     </div>
     <div class="pillar">
-      <h3>✅ Same-Day Installs</h3>
+      <h3>✔️ Same-Day Installs</h3>
       <p>Quick turnaround from quote to install, with minimal disruption to your day.</p>
     </div>
     <div class="pillar">
-      <h3>✅ Trusted Service</h3>
+      <h3>✔️ Trusted Service</h3>
       <p>Backed by real testimonials and a reputation built on honesty, speed, and quality.</p>
     </div>
   </div>
@@ -68,4 +70,21 @@
     }, 100); // small delay to ensure smoother entry
   });
 </script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // optional: remove once visible
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>s
 {% endblock %}

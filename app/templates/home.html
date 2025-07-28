@@ -7,7 +7,7 @@
 {% block content %}
 <section class="slogan-hero">
   <div class="hero-content">
-    <div class="hero-text animate-on-load">
+    <div class="hero-text animate-on-scroll from-left">
       <h1 class="slogan-title">
         <span class="highlight-you">Protect</span> What Matters
       </h1>
@@ -18,9 +18,25 @@
       <a href="/quote-form/" class="cta-button">Get a Free Quote</a>
     </div>
 
-    <div class="hero-images animate-on-load">
+    <div class="hero-images animate-on-scroll from-down">
       <img src="{% static 'images/installing.png' %}" alt="Installing camera" class="main-img">
       <img src="{% static 'images/suburban_home.png' %}" alt="Suburban home" class="overlay-img">
+    </div>
+  </div>
+</section>
+
+<section class="slogan-hero">
+  <div class="hero-content">
+    <div class="hero-text animate-on-scroll from-right">
+      <h1 class="slogan-title">
+        <span class="highlight-you">Proudly</span> Canadian
+      </h1>
+      <p class="slogan-sub">Securo is proudly founded and operated right here in Ottawa. With years of local expertise, we understand the unique security needs of Canadian homes and businesses. Our trusted team is committed to delivering reliable, community-focused service with the values that make us proudly Canadian.</p>
+      <a href="/about/" class="cta-button">Find Out More About Us!</a>
+    </div>
+
+    <div class="hero-images animate-on-scroll from-up">
+      <img src="{% static 'images/canadian_leaf.png' %}" alt="Canadian Logo" class="main-img">
     </div>
   </div>
 </section>
@@ -34,5 +50,23 @@
     }, 100); // small delay to ensure smoother entry
   });
 </script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // optional: remove once visible
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
 
 {% endblock %}

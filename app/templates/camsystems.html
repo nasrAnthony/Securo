@@ -1,8 +1,58 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Home - Security Systems{% endblock %}
+{% block title %}Camera Systems - Securo{% endblock %}
 
 {% block content %}
-<h1>Welcome to the Camera systems page!</h1>
-<p>This is our security systems landing page.</p>
+<section class="camera-hero animate-on-scroll from-left">
+  <div class="camera-content">
+    <div class="camera-text">
+      <h1 class="camera-title"><span class="highlight-you">Secure</span> Your Property with Advanced <span class="highlight-you">Camera</span> Systems</h1>
+      <p class="camera-sub">
+        Whether you're safeguarding your home or business, our cutting-edge surveillance systems provide reliable, high-definition footage with remote access, motion detection, and 24/7 recording. At Securo, we tailor each solution to meet your unique security needs.
+      </p>
+      <ul class="camera-features  animate-on-scroll from-left">
+        <li>✔️ Full HD & 4K resolution</li>
+        <li>✔️ Night Vision & Infrared Capabilities</li>
+        <li>✔️ Remote Mobile Viewing (iOS/Android)</li>
+        <li>✔️ Motion Alerts & Smart Detection</li>
+        <li>✔️ Indoor & Outdoor Options</li>
+      </ul>
+      <a href="/quote-form/" class="cta-button">Get A Free Quote</a>
+    </div>
+
+    <div class="camera-image  animate-on-scroll from-left">
+      <img src="{% static 'images/camera.png' %}" alt="CCTV Camera" />
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      document.querySelectorAll('.animate-on-load').forEach(el => {
+        el.classList.add('visible');
+      });
+    }, 100); // small delay to ensure smoother entry
+  });
+</script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // optional: remove once visible
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
 {% endblock %}
+s

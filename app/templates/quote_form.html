@@ -3,7 +3,7 @@
 {% block title %}Request a Quote - Securo{% endblock %}
 
 {% block content %}
-<section class="quote-hero animate-on-load">
+<section class="quote-hero animate-on-scroll from-right">
   <div class="quote-container">
     <h1 class="quote-slogan">Get Your <span class="highlight-you">Quote</span></h1>
 
@@ -98,5 +98,22 @@
       });
     }, 100); // small delay to ensure smoother entry
   });
-</script>s
+</script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // optional: remove once visible
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>
 {% endblock %}

@@ -4,16 +4,16 @@
 
 {% block content %}
 <section class="contact-hero">
-  <div class="contact-content">
+  <div class="contact-content ">
     
-    <div class="contact-info animate-on-load">
+    <div class="contact-info animate-on-scroll from-left">
       <h1 class="contact-slogan">
         Do what’s right for <span class="highlight-you">You</span>,&nbsp;
         Contact <span class="highlight-you">us</span> now!
       </h1>
 
 
-      <div class="contact-details">
+      <div class="contact-detail sanimate-on-scroll from-right">
         <p><strong>📞 Phone:</strong> +1 (613) 123-4567</p>
         <p><strong>📧 Email:</strong> support@securo.ca</p>
         <p><strong>🕒 Working Hours:</strong> Monday – Friday: 9am – 6pm</p>
@@ -22,9 +22,19 @@
       <a href="/quote-form/" class="cta-button contact-button">Get a Free Quote</a>
     </div>
 
-    <div class="contact-image animate-on-load">
-      <img src="{% static 'images/logo.png' %}" alt="Contact illustration" />
+    <div class="contact-image animate-on-scroll from-down">
+      <div class="logo-and-map">
+        <img src="{% static 'images/logo.png' %}" alt="SECURO Logo" class="securo-logo">
+        <iframe
+          class="contact-map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.898408333172!2d-75.69719328444116!3d45.4215329791009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce050a33e682d7%3A0x89c68d22843792c6!2sOttawa%2C%20ON!5e0!3m2!1sen!2sca!4v1690393220176!5m2!1sen!2sca"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -35,6 +45,23 @@
         el.classList.add('visible');
       });
     }, 100);
+  });
+</script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // optional: remove once visible
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
   });
 </script>
 {% endblock %}
