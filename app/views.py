@@ -18,3 +18,8 @@ def camera_systems(request):
 def alarm_systems(request):
     return render(request, 'alarmsystems.html')
 
+def login(request):
+    return render(request, 'login.html')
+
+def quote(request):
+    return render(request, 'quote_form.html')
