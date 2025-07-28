@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Security Systems{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -13,10 +14,28 @@
       <div class="nav-left">
         <a href="/home/" class="logo">
         SECUR<span class="eye-wrapper">
-            <svg class="eye-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="black" />
+                <svg class="eye-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect x="22" y="4" width="20" height="6" rx="3" ry="3" fill="#444" />
+                <!-- Outer dark rim -->
+                <circle cx="32" cy="32" r="30" fill="#142857"/>
+                <!-- Main lens body with radial gradient -->
+                <defs>
+                    <radialGradient id="lensGradient" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#0a1e40"/>
+                    <stop offset="100%" stop-color="#2f4a7c"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="32" cy="32" r="24" fill="url(#lensGradient)" />
+                <!-- Inner lens ring -->
+                <circle cx="32" cy="32" r="14" fill="#1c335f" />
+                <!-- Small highlight circle (top-left) -->
+                <circle cx="22" cy="22" r="6" fill="#b1d0e7" opacity="0.8" />
+                <!-- Faint bottom-right highlight -->
+                <circle cx="40" cy="42" r="4" fill="#9db3d9" opacity="0.4" />
+                <!-- Pupil (dynamic, follows cursor) -->
                 <circle id="pupil" cx="32" cy="32" r="8" fill="white" />
-            </svg>
+                </svg>
+
             <div class="recording-dot"></div>
             </span>
         </a>
@@ -25,6 +44,13 @@
         <a href="/home/">HOME</a>
         <a href="/about/">ABOUT</a>
         <a href="/contact/">CONTACT</a>
+        <div class="dropdown">
+            <a href="">OUR SYSTEMS</a>
+            <div class="dropdown-content">
+                <a href="/camera-systems/">Camera Systems</a>
+                <a href="/alarm-systems/">Alarm Systems</a>
+            </div>
+        </div>
       </div>
       <div class="nav-right"></div> <!-- empty div for spacing -->
     </div>

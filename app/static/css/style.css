@@ -1,3 +1,7 @@
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 nav {
   background-color: #ffffff;
   padding: 1.5rem 2rem;
@@ -29,7 +33,6 @@ nav {
   color: rgb(0, 0, 0);
   text-decoration: none;
   font-size: 1.10rem;
-  font-weight: bold;
   transition: color 0.2s ease;
 }
 
@@ -54,7 +57,9 @@ nav {
   display: inline-block;
   width: 1em;
   height: 1em;
+  vertical-align: middle; /* aligns with text baseline */
   position: relative;
+  transform: translateY(-2.5px); 
 }
 
 .recording-dot {
@@ -98,3 +103,67 @@ nav {
   transform: scaleY(1);
 }
 
+/* Dropdown wrapper */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown content (initially hidden) */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  border-radius: 4px;
+  min-width: 180px;
+
+  /* Fade + slide-down setup */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* slide up by default */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+/* Dropdown links */
+.dropdown-content a {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: black;
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+/* On hover: fade in and slide down */
+.dropdown:hover .dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* slide down into position */
+}
+
+
+.slogan-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
+  margin-top: 2rem;
+}
+
+.slogan-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0a1e40;
+  margin-bottom: 1rem;
+}
+
+.slogan-sub {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #444;
+}
