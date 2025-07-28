@@ -41,16 +41,20 @@ nav {
 }
 
 .nav-left a:hover {
-  color: #0077ff;
+  color: #000000;
 }
 
 .logo {
   font-weight: bold;
   font-size: 2.25rem;
-  color: black;
+  color: #0077ff;
   text-decoration: none;
   display: flex;
   align-items: center;
+}
+
+.logo:hover .highlight-logo {
+  color: black;
 }
 
 .eye-wrapper {
@@ -160,8 +164,12 @@ nav {
   font-size: 3rem;
   font-weight: 800;
   color: #0a1e40;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   line-height: 1;          /* Tighter line spacing */
+}
+
+.slogan-title.second-line {
+  margin-top: -0.25rem; /* pull it upward */
 }
 
 .slogan-sub {
@@ -175,24 +183,48 @@ nav {
   font-weight: 800;
 }
 
+.highlight-logo {
+  color: #004799;
+}
 
 .cta-button {
+  position: relative;
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, #0059ff, #71afff);
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   text-decoration: none;
   font-size: 1rem;
-  transition: background 0.3s ease, transform 0.2s ease;
+  background: linear-gradient(to right, #0059ff, #71afff);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1;
+
+  /* transition for movement and hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Pseudo-element for reverse gradient */
+.cta-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, #0059ff, #71afff); /* reversed gradient */
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: -1;
+}
+
+/* On hover: fade gradient & move button up */
 .cta-button:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(to right, #0059ff, #71afff);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
 }
 
 .site-footer {
@@ -261,4 +293,73 @@ nav {
 
 .social-icons i:hover {
   color: #0077ff;
+}
+
+.slogan-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 2rem;
+  gap: 2rem;
+  background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
+  flex-wrap: wrap;
+}
+
+.slogan-section {
+  max-width: 600px;
+  flex: 1;
+}
+
+.slogan-image {
+  flex: 1;
+  max-width: 500px;
+}
+
+.slogan-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.slogan-hero {
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
+}
+
+.hero-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero-images {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.overlay-img {
+  position: absolute;
+  bottom: -30px;
+  left: -60px;
+  width: 70%;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
