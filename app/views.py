@@ -23,3 +23,6 @@ def login(request):
 
 def quote(request):
     return render(request, 'quote_form.html')
+
+def installation_service(request):
+    return render(request, "installation_service.html")

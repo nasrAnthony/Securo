@@ -191,13 +191,13 @@ nav {
 .cta-button {
   position: relative;
   display: inline-block;
-  padding: 0.75rem 1.5rem;
+  padding: 2.5rem 8rem;
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   background: linear-gradient(to right, #0059ff, #71afff);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
