@@ -1,9 +1,40 @@
 {% extends "base.html" %}
-
-{% block title %}About Us - Security Systems{% endblock %}
+{% load static %}
+{% block title %}Contact Us - Securo{% endblock %}
 
 {% block content %}
-<h1>Contact us here!</h1>
-<p>613-999-9999</p>
-<p>amirco@securo.com</p>
+<section class="contact-hero">
+  <div class="contact-content">
+    
+    <div class="contact-info animate-on-load">
+      <h1 class="contact-slogan">
+        Do what’s right for <span class="highlight-you">You</span>,&nbsp;
+        Contact <span class="highlight-you">us</span> now!
+      </h1>
+
+
+      <div class="contact-details">
+        <p><strong>📞 Phone:</strong> +1 (613) 123-4567</p>
+        <p><strong>📧 Email:</strong> support@securo.ca</p>
+        <p><strong>🕒 Working Hours:</strong> Monday – Friday: 9am – 6pm</p>
+      </div>
+
+      <a href="/quote-form/" class="cta-button contact-button">Get a Free Quote</a>
+    </div>
+
+    <div class="contact-image animate-on-load">
+      <img src="{% static 'images/logo.png' %}" alt="Contact illustration" />
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      document.querySelectorAll('.animate-on-load').forEach(el => {
+        el.classList.add('visible');
+      });
+    }, 100);
+  });
+</script>
 {% endblock %}

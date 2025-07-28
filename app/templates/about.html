@@ -1,8 +1,71 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}About Us - Security Systems{% endblock %}
 
 {% block content %}
-<h1>About Us</h1>
-<p>We provide top-notch security systems for homes and businesses.</p>
+<section class="about-section animate-on-load">
+  <h2 class="section-title"><span class="highlight-you">Our</span> Story</h2>
+  <p class="section-text">
+    Securo began with one goal in mind — to make modern, reliable home and business security simple and accessible for every Ottawa resident. As a locally founded startup, we’re proud to serve our neighbors and community with top-tier installation and personalized service. From small beginnings, we’ve grown into a trusted name in security by putting care, quality, and transparency at the heart of everything we do.
+  </p>
+  <a href="/quote-form/" class="cta-button about-section-button">Get Your Free Quote!</a>
+</section>
+
+<section class="about-section offerings-section animate-on-load">
+  <h2 class="section-title">What We <span class="highlight-you">Offer</span></h2>
+  <div class="offerings-grid">
+    <div class="offering">
+      <span class="offering-icon">📷</span>
+      <h3>Camera Systems</h3>
+      <p>Indoor, outdoor, wired or wireless — installed professionally and configured for remote access.</p>
+    </div>
+    <div class="offering">
+      <span class="offering-icon">🔒</span>
+      <h3>Alarm Systems</h3>
+      <p>Customized alarms that protect your entry points and notify you instantly if something's wrong.</p>
+    </div>
+    <div class="offering">
+      <span class="offering-icon">🛠️</span>
+      <h3>Professional Installation</h3>
+      <p>Done by trained experts who ensure your system is reliable, secure, and easy to use.</p>
+    </div>
+    <div class="offering">
+      <span class="offering-icon">📡</span>
+      <h3>Remote Monitoring</h3>
+      <p>Access your cameras and alerts from anywhere with our seamless setup and support.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-section animate-on-load">
+  <h2 class="section-title">Why Choose <span class="highlight-you">Us</span></h2>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <h3>✅ Locally Owned</h3>
+      <p>We’re part of the Ottawa community and committed to protecting our neighbors.</p>
+    </div>
+    <div class="pillar">
+      <h3>✅ Affordable Packages</h3>
+      <p>Tailored security solutions that don’t break the bank — with no hidden fees.</p>
+    </div>
+    <div class="pillar">
+      <h3>✅ Same-Day Installs</h3>
+      <p>Quick turnaround from quote to install, with minimal disruption to your day.</p>
+    </div>
+    <div class="pillar">
+      <h3>✅ Trusted Service</h3>
+      <p>Backed by real testimonials and a reputation built on honesty, speed, and quality.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      document.querySelectorAll('.animate-on-load').forEach(el => {
+        el.classList.add('visible');
+      });
+    }, 100); // small delay to ensure smoother entry
+  });
+</script>
 {% endblock %}
