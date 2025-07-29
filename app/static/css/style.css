@@ -3,9 +3,11 @@ body {
 }
 
 nav {
-  padding: 1.5rem 2rem;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.637);
+  padding: 1.5rem 2rem;  
+  background: linear-gradient(to right, #ffffff, #f7f9fc);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   z-index: 1000;
+  position: relative;
 }
 
 .nav-container {
@@ -620,7 +622,7 @@ textarea {
   border-radius: 8px;
 }
 
-.camera-hero {
+.camera-hero {  
   background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
   padding: 4rem 2rem;
 }
@@ -678,6 +680,16 @@ textarea {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+.camera-image img {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.camera-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+
 /* Scroll animation */
 .animate-on-scroll {
   opacity: 0;
@@ -688,4 +700,129 @@ textarea {
 .animate-on-scroll.visible {
   opacity: 1;
   transform: translateY(0);
+}
+.camera-table-section {
+  background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
+  text-align: center;
+  margin: auto;
+  padding: 20px;
+}
+
+.camera-table-container {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 0 1rem;
+}
+
+.camera-table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.camera-table th,
+.camera-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.camera-table th {
+  font-weight: 600;
+}
+
+.camera-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.camera-table tr:hover {
+  background-color: #eef6ff;
+}
+
+/* Fade-in animation */
+.animate-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Star hover shimmer */
+.camera-table td:hover {
+  background-color: #eaf4ff;
+  transition: background-color 0.3s ease;
+}
+
+.signup-form {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.signup-form .form-group {
+  margin-bottom: 20px;
+}
+
+.signup-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.2s ease;
+}
+
+.signup-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.signup-form .cta-button {
+  background-color: #0c2340;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signup-form .cta-button:hover {
+  background-color: #163f75;
+}
+
+.nav-center a {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-center a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #0077ff;
+  transition: width 0.3s ease;
+}
+
+.nav-center a:hover::after {
+  width: 100%;
 }

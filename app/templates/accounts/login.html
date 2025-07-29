@@ -3,5 +3,10 @@
 {% block title %}About Us - Security Systems{% endblock %}
 
 {% block content %}
-<h1>Welcome to the login page!</h1>
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
 {% endblock %}

@@ -6,6 +6,26 @@
   <title>{% block title %}Security Systems{% endblock %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    #nav-wave {
+        position: absolute;
+        top: 100%; /* directly below nav */
+        left: 0;
+        width: 100%;
+        height: 10px;
+        pointer-events: none;
+        z-index: 999;
+    }
+
+    #nav-wave path {
+        transition: d 0.25s ease-out;
+    }
+
+    nav {
+        position: relative; /* so wave sits right below */
+        z-index: 1000;
+    }
+    </style>
 </head>
 <body>
 
@@ -50,12 +70,11 @@
                 <a href="/installation/">Installation</a>
             </div>
         </div>
-        <a href="/login/">LOGIN</a>
+        <a href="/login/">CLIENT LOGIN</a>
       </div>
       <div class="nav-right"></div> <!-- empty div for spacing -->
     </div>
   </nav>
-
   <main>
     {% block content %}{% endblock %}
   </main>
@@ -82,7 +101,6 @@
         pupil.setAttribute('cy', 32 + offsetY);
     });
     </script>
-
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-column">
@@ -95,8 +113,8 @@
             <h3>Navigation Links</h3>
             <ul>
                 <li><a href="/home/">Home</a></li>
-                <li><a href="/alarm-systems/">Alarm Systems</a></li>
-                <li><a href="/camera-systems/">Camera Systems</a></li>
+                <li><a href="/installation/">Installation services</a></li>
+                <li><a href="/about/">About</a></li>
                 <li><a href="/contact/">Contact</a></li>
             </ul>
             </div>
@@ -105,7 +123,7 @@
             <p>
                 999 Meow street, Orleans ON,<br>
                 K99 9A9<br>
-                <a href="meow@securo.ca">meow@securo.ca</a><br>
+                <a href="meow@securo.ca">info@securo.ca</a><br>
                 613-999-9999
             </p>
             </div>

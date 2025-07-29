@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'app',
 ]
 
@@ -78,11 +79,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'securo_db',
         'USER': 'securo_user',
-        'PASSWORD': 'yourpassword',
+        'PASSWORD': 'Securo2025',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
 
 
 

@@ -4,45 +4,133 @@
 {% block title %}Camera Systems - Securo{% endblock %}
 
 {% block content %}
+
+<!-- General Installations Hero -->
 <section class="camera-hero animate-on-scroll from-left">
   <div class="camera-content">
     <div class="camera-text">
       <h1 class="camera-title"><span class="highlight-you">Installations</span> Tailored to <span class="highlight-you">Your</span> Needs</h1>
       <p class="camera-sub">
-        Whether you're safeguarding your home or business, our cutting-edge surveillance systems provide reliable, high-definition footage with remote access, motion detection, and 24/7 recording. At Securo, we tailor each solution to meet your unique security needs.
+        At <strong>Securo</strong>, we don’t just sell top-tier security systems—we install them too. Whether it’s your <strong>home</strong> or <strong>business</strong>, we tailor every installation to suit your property layout and security needs.
       </p>
-      <ul class="camera-features  animate-on-scroll from-left">
-        <li>✔️ Full HD & 4K resolution</li>
-        <li>✔️ Night Vision & Infrared Capabilities</li>
-        <li>✔️ Remote Mobile Viewing (iOS/Android)</li>
-        <li>✔️ Motion Alerts & Smart Detection</li>
-        <li>✔️ Indoor & Outdoor Options</li>
-      </ul>
-      <a href="/quote-form/" class="cta-button">Get A Free Quote</a>
+      <a href="/quote-form/" class="cta-button">Get a Free Quote</a>
     </div>
+    <div class="camera-image animate-on-scroll from-down">
+      <img src="{% static 'images/camera_2.png' %}" alt="camera1" class="main-img">
+    </div>
+</section>
 
-    <div class="camera-image  animate-on-scroll from-left">
-      <img src="{% static 'images/camera.png' %}" alt="CCTV Camera" />
+<!-- Residential Installations -->
+<section class="camera-hero animate-on-scroll from-right">
+  <div class="camera-content">
+    <div class="camera-text">
+      <h1 class="camera-title">Residential <span class="highlight-you">Security</span></h1>
+      <p class="camera-sub">
+        Your home deserves peace of mind. We install cameras at key entry points, driveways, backyards, and other vulnerable zones. 
+        Integrate with smart doorbells and alarms for complete control from your phone.
+      </p>
+      <ul>
+        <li>✔️ Front door / Porch Cameras</li>
+        <li>✔️ Driveway and Garage Monitoring</li>
+        <li>✔️ Backyard and Perimeter Defense</li>
+        <li>✔️ Smart Doorbells & Alarm Integration</li>
+      </ul>
+      <a href="/quote-form/" class="cta-button">Get a Free Quote</a>
+    </div>
+    <div class="camera-image animate-on-scroll from-right">
+      <img src="{% static 'images/doorbell_cam.png' %}" alt="Residential CCTV" />
     </div>
   </div>
 </section>
 
+<!-- Business Installations -->
+<section class="camera-hero animate-on-scroll from-left">
+  <div class="camera-content">
+    <div class="camera-text">
+      <h1 class="camera-title">Business <span class="highlight-you">Surveillance</span></h1>
+      <p class="camera-sub">
+        Protect your assets and employees with commercial-grade installations. We assess your business layout and install smart systems that scale with your needs.
+      </p>
+      <ul>
+        <li>✔️ Storefront and Checkout Areas</li>
+        <li>✔️ Office Entrances & Hallways</li>
+        <li>✔️ Warehouse & Inventory Monitoring</li>
+        <li>✔️ Remote Access via Phone or Desktop</li>
+      </ul>
+      <a href="/quote-form/" class="cta-button">Get a Free Quote</a>
+    </div>
+    <div class="camera-image animate-on-scroll from-left">
+      <img src="{% static 'images/business_camera.png' %}" alt="Business Security Camera" />
+    </div>
+  </div>
+</section>
+
+<section class="camera-hero camera-table-section animate-on-scroll from-right">
+  <h2 class="camera-title"><span class="highlight-you">Pick</span> The <span class="highlight-you">Right</span> Camera For <span class="highlight-you">You</span></h2>
+  <p class="camera-sub">Here’s a breakdown of our most popular cameras and their ideal applications:</p>
+
+  <div class="camera-table-container">
+    <table class="camera-table">
+      <thead>
+        <tr>
+          <th>Camera Type</th>
+          <th>Residential</th>
+          <th>Business</th>
+          <th>Best Use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Doorbell Camera</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td>⭐⭐</td>
+          <td>Front entrance / deliveries</td>
+        </tr>
+        <tr>
+          <td>Lightbulb Camera</td>
+          <td>⭐⭐⭐⭐</td>
+          <td>⭐⭐⭐</td>
+          <td>Discreet entry monitoring</td>
+        </tr>
+        <tr>
+          <td>Turret CVI Camera</td>
+          <td>⭐⭐⭐</td>
+          <td>⭐⭐⭐⭐</td>
+          <td>General surveillance</td>
+        </tr>
+        <tr>
+          <td>PTZ Optical Zoom</td>
+          <td>⭐⭐</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td>Large areas, zoom focus</td>
+        </tr>
+        <tr>
+          <td>4K NVR Battery System</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td>⭐⭐⭐</td>
+          <td>Full wireless coverage</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- Scroll & Load Animations -->
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       document.querySelectorAll('.animate-on-load').forEach(el => {
         el.classList.add('visible');
       });
-    }, 100); // small delay to ensure smoother entry
+    }, 100);
   });
-</script>
 
-<script>
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // optional: remove once visible
+        observer.unobserve(entry.target);
       }
     });
   }, {
@@ -51,6 +139,21 @@
 
   document.querySelectorAll('.animate-on-scroll').forEach(el => {
     observer.observe(el);
+  });
+</script>
+
+<script>
+  const fadeInObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeInObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-fade-in').forEach(el => {
+    fadeInObserver.observe(el);
   });
 </script>
 

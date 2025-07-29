@@ -27,12 +27,30 @@
 
 <section class="slogan-hero">
   <div class="hero-content">
+    <div class="hero-images animate-on-scroll from-down">
+      <img src="{% static 'images/peaceful_house.png' %}" alt="house 2" class="main-img">
+    </div>
     <div class="hero-text animate-on-scroll from-right">
+      <h1 class="slogan-title">
+        <span class="highlight-you">4 Years</span> of Trusted Protection
+      </h1>
+      <p class="slogan-sub">
+        For over four years, <strong>Securo</strong> has been dedicated to safeguarding homes and businesses across Ottawa and beyond. Our experienced team delivers professional installations, reliable technology, and peace of mind to families and entrepreneurs alike. We don’t just install cameras—we build security you can trust.
+      </p>
+      <a href="/about/" class="cta-button">Learn About Our Journey</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="slogan-hero">
+  <div class="hero-content">
+    <div class="hero-text animate-on-scroll from-left">
       <h1 class="slogan-title">
         <span class="highlight-you">Proudly</span> Canadian
       </h1>
       <p class="slogan-sub">Securo is proudly founded and operated right here in Ottawa. With years of local expertise, we understand the unique security needs of Canadian homes and businesses. Our trusted team is committed to delivering reliable, community-focused service with the values that make us proudly Canadian.</p>
-      <a href="/about/" class="cta-button">Find Out More About Us!</a>
+      <a href="/contact/" class="cta-button">Contact Us Today!</a>
     </div>
 
     <div class="hero-images animate-on-scroll from-up">
@@ -67,6 +85,5 @@
     observer.observe(el);
   });
 </script>
-
 
 {% endblock %}
