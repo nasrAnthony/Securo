@@ -123,7 +123,7 @@ nav {
   left: 0;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 10;
+  z-index: 1000;
   border-radius: 4px;
   min-width: 180px;
 
@@ -575,6 +575,13 @@ textarea {
   font-weight: 700;
 }
 
+.form-group select {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
 /* Initial state */
 .animate-on-scroll {
   opacity: 0;
@@ -689,7 +696,9 @@ textarea {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-
+.no-margin-bottom {
+  margin-bottom: 0;
+}
 /* Scroll animation */
 .animate-on-scroll {
   opacity: 0;
@@ -825,4 +834,310 @@ textarea {
 
 .nav-center a:hover::after {
   width: 100%;
+}
+
+/* ===== Floating Mascot (position slightly higher) ===== */
+.mascot {
+  position: fixed;
+  right: 22px;
+  top: 26vh;                 /* moved up from 32vh; tweak 22–28vh to taste */
+  bottom: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2000;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: mascot-in 400ms cubic-bezier(.2,.8,.2,1) forwards 800ms; /* gentler delay */
+}
+
+@keyframes mascot-in { to { transform: translateY(0); opacity: 1; } }
+
+/* Eye (camera) */
+.mascot-eye-link {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.15));
+  transition: transform .2s ease;
+  order: 0;                  /* bubble is left via order:-1 */
+}
+.mascot-eye-link:hover { transform: scale(1.04); }
+
+.mascot-eye-icon { width: 100%; height: 100%; display: block; }
+
+/* Recording dot (RIGHT side of lens) */
+.mascot-recording-dot {
+  position: absolute;
+  top: 12%;
+  right: 12%;
+  left: auto;
+  width: 16%;
+  height: 16%;
+  background: #ff2b2b;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255,43,43,.15);
+  animation: mascot-blink 1.5s infinite;
+  z-index: 2;
+}
+@keyframes mascot-blink { 0%,49%{opacity:0} 50%,100%{opacity:1} }
+
+/* Bubble (LEFT of the eye) */
+.mascot-bubble {
+  position: relative;
+  order: -1;
+  max-width: 320px;
+  padding: 14px 16px;
+  background: #fff;
+  color: #0a1e40;
+  text-decoration: none;
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);
+  line-height: 1.35;
+  font-size: .98rem;
+  transition: box-shadow .2s ease, opacity .25s ease, transform .25s ease;
+  overflow: visible;
+}
+.mascot-bubble:hover { box-shadow: 0 12px 28px rgba(0,0,0,.14); }
+
+/* Rounded cartoon tail pointing RIGHT */
+.mascot-bubble::after {
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.08);
+  z-index: 1;
+}
+.mascot-bubble::before {
+  background: rgba(0,0,0,.06);
+  filter: blur(6px);
+  right: -16px;
+  z-index: 0;
+}
+
+/* Close (X) */
+.mascot-close {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 24px; height: 24px;
+  border: none; border-radius: 999px;
+  background: #ffffff; color: #0a1e40;
+  font-size: 16px; line-height: 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+  transition: transform .15s ease, background .15s ease;
+  z-index: 1;
+}
+.mascot-close:hover { transform: scale(1.05); background: #f4f7fb; }
+
+/* Hidden whole mascot (kept for quote page) */
+.mascot.is-hidden { display: none !important; }
+
+/* --- Collapsed state: bubble hidden, eye stays --- */
+.mascot.is-collapsed .mascot-bubble {
+  opacity: 0;
+  transform: translateX(6px) scale(.98);
+  pointer-events: none;
+}
+
+/* Mobile positioning */
+@media (max-width: 640px) {
+  .mascot { top: auto; bottom: 16px; right: 16px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mascot { animation: none; opacity: 1; transform: none; }
+  .mascot-eye-link { transition: none; }
+}
+
+/* Right side layout */
+.nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Phone pill */
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #f2f6ff;
+  color: #0a1e40;
+  border: 1px solid rgba(0,0,0,0.06);
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1;
+  transition: background .2s ease, transform .08s ease;
+}
+.nav-pill:hover { background: #e8f1ff; }
+.nav-pill:active { transform: translateY(0.5px); }
+
+/* Primary CTA */
+.btn-quote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #0a5bff, #5aa8ff);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(10,91,255,0.25);
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-quote:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(10,91,255,0.32);
+}
+.btn-quote:active { transform: translateY(0); filter: brightness(.96); }
+
+/* Trust pill */
+.nav-trust { display: flex; align-items: center; }
+.trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #2a3b57;
+  font-weight: 600;
+  border: 1px solid rgba(0,0,0,0.06);
+  line-height: 1;
+}
+
+/* Small SVG icons inherit text color */
+.icon { width: 16px; height: 16px; fill: currentColor; }
+
+/* Responsive tweaks */
+.hide-sm { }
+@media (max-width: 900px) {
+  .hide-sm { display: none; }       /* hide long text and trust pill on small screens */
+  .nav-pill { padding: 8px; }       /* icon-only phone button */
+}
+
+/* Optional: slightly tighter nav on scroll */
+nav.nav-compact .btn-quote { padding: 8px 12px; border-radius: 8px; }
+
+
+/* Make the right region a centered flex cell */
+.nav-right {
+  flex: 1;                                  /* ensure it has space like .nav-left */
+  display: flex;
+  align-items: center;
+  justify-content: center;                   /* center the actions in the right area */
+  gap: 0;                                    /* outer gap not needed */
+}
+
+/* Actions: small gap so they sit snugly together */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;                                  /* tighten spacing between phone & CTA */
+}
+
+/* Optional: keep them from drifting too far inward on very wide screens */
+@media (min-width: 1400px) {
+  .nav-right { padding-right: 24px; }        /* slight bias toward the edge on huge screens */
+}
+
+/* Slightly tighter paddings (same as Option A if you want them) */
+.nav-pill  { padding: 8px 10px; }
+.btn-quote { padding: 9px 12px; }
+.nav-pill.nav-phone {
+  margin-right: 16px; /* or however much spacing you want */
+}
+
+
+.tooltip-icon {
+  display: inline-block;
+  background-color: #0077ff;
+  color: white;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  text-align: center;
+  line-height: 1.2rem;
+  cursor: help;
+  margin-left: 8px;
+  position: relative;
+}
+
+.tooltip-icon:hover .tooltip-text,
+.tooltip-icon:focus .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 6px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+  font-size: 0.85rem;
+  width: max-content;
+  max-width: 250px;
+  white-space: normal;     /* allow multi-line */
+  word-wrap: break-word;
+  max-width: 250px;
+}
+
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.form-group {
+  position: relative; /* needed for tooltip positioning */
+  overflow: visible;  /* allow tooltips to break out */
+}
+
+.form-grid {
+  overflow: visible;
+}
+
+.login-footer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.login-footer a {
+  color: #0077ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
 }

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}About Us - Security Systems{% endblock %}
+{% block title %}Login - Securo{% endblock %}
 
 {% block content %}
 <h2>Login</h2>
@@ -9,4 +9,8 @@
   {{ form.as_p }}
   <button type="submit">Login</button>
 </form>
+
+<div class="login-footer">
+  <p>Don't have an account? <a href="{% url 'register' %}">Sign up here!</a></p>
+</div>
 {% endblock %}

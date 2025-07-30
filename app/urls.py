@@ -13,7 +13,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'), 
     path('installation/', views.installation_service, name='systemcamera'),
     path('quote-form/', views.quote, name='quote'),
-    path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('login/', accounts_views.login, name='login'),
+    path('logout/', accounts_views.logout, name='logout'),
     path('register/', accounts_views.register, name='register'),
 ]
