@@ -38,9 +38,36 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
 
 class Quote(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='quotes')
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL,null=True, blank=True, related_name='quotes')
+    email = models.EmailField(blank=False, db_index=True)
+    full_name = models.CharField(max_length=100, blank=False)
+    phone_number = models.CharField(max_length=15, blank=False)
     submitted_at = models.DateTimeField(auto_now_add= True)
-    status = models.CharField(max_length=20, choices=[('active', 'Active'), ('completed', 'Completed'), ('expired', 'Expired')])
+    project_details = models.TextField()
+    address = models.CharField(max_length=100)
+    unit = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=100)
+    province = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=100)
+
+    PROPERTY_TYPE_CHOICES = [
+        ('Commercial', 'Commercial'),
+        ('Single Home', 'Single Home'),
+        ('Town House', 'Town House'),
+        ('Apartment', 'Apartment'),
+        ('Condo', 'Condo'),
+        ('Studio', 'Studio'),
+    ]
+
+    property_type = models.CharField(
+        max_length=20,
+        choices=PROPERTY_TYPE_CHOICES,
+        blank=False
+    )
+
+    status = models.CharField(max_length=20, 
+                            choices=[('active', 'Active'), ('completed', 'Completed'), ('expired', 'Expired')], 
+                            default='active')
 
 
 class Invoice(models.Model):
