@@ -1696,3 +1696,105 @@ body {
 
 /* optional: less abrupt snapping between panels */
 .panels { scroll-snap-type: x proximity; }     /* instead of "mandatory" */
+
+
+/* Container positions */
+.flash-container{
+  position: fixed;
+  z-index: 1100;
+  width: min(560px, calc(100vw - 32px));
+  display: grid;
+  gap: 10px;
+  pointer-events: none;
+  left: 0; right: 0; margin-left: auto; margin-right: auto;
+}
+.flash-container.top-center{    top: max(16px, env(safe-area-inset-top)); }
+.flash-container.center-screen{ top: 50%; transform: translateY(-50%); }
+.flash-container.bottom-center{ bottom: max(16px, env(safe-area-inset-bottom)); }
+
+/* Toast card */
+.flash{
+  pointer-events: auto;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  border: 1px solid #eef3ff;
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 30px rgba(0,123,255,.12);
+
+  /* ENTER + LEAVE */
+  animation: flash-in .35s cubic-bezier(.22,.61,.36,1) both;
+  opacity: 1; 
+  transform: translate3d(0,0,0) scale(1);
+  will-change: opacity, transform;
+  transition: opacity 1.6s cubic-bezier(.22,.61,.36,1),
+              transform 1.6s cubic-bezier(.22,.61,.36,1);
+}
+.flash-success{ background:#ecfdf5; border-color:#bbf7d0; color:#065f46; }
+.flash-error  { background:#fef2f2; border-color:#fecaca; color:#991b1b; }
+.flash-info   { background:#f0f7ff; border-color:#d7e8ff; color:#0a1c3d; }
+.flash-warning{ background:#fff7ed; border-color:#fed7aa; color:#92400e; }
+
+@keyframes flash-in{
+  from{ opacity:0; transform: translate3d(0,8px,0) scale(.98); }
+  to  { opacity:1; transform: translate3d(0,0,0)  scale(1); }
+}
+
+/* LEAVE target state — JS adds .is-leaving after 4s */
+.flash.is-leaving{
+  opacity: 0;
+  transform: translate3d(0,-8px,0) scale(.98);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .flash, .flash.is-leaving{ animation:none; transition:none; }
+}
+
+
+
+/* Layout the three nav regions on one row */
+.nav-container{
+  max-width: 1280px;        /* adjust to your page width */
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Left and right keep natural width */
+.nav-left,
+.nav-right{
+  flex: 0 0 auto;
+}
+
+/* Center takes the remaining space and must not wrap items */
+.nav-center{
+  flex: 1 1 auto;           /* grow to fill space between left/right */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 3vw, 36px);   /* responsive spacing */
+  flex-wrap: nowrap;        /* keep items on one row */
+  min-width: 0;             /* allow flexbox to shrink if needed */
+}
+
+/* Prevent link text itself from breaking to two lines */
+.nav-center a,
+.nav-center .dropdown > a{
+  white-space: nowrap;      /* "OUR SERVICES" stays on one line */
+  display: inline-flex;     /* nice baseline alignment */
+  align-items: center;
+}
+
+/* (Optional) If you set a large letter-spacing somewhere, reduce it here */
+/* .nav-center a { letter-spacing: 0; } */
+
+/* If your dropdown wrapper was forcing a line break, ensure it's inline-level */
+.nav-center .dropdown{
+  position: relative;
+  display: inline-flex;     /* avoid starting a new row */
+  align-items: center;
+}

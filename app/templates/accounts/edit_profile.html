@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-container">
+    <h1 class="auth-title">Edit Profile</h1>
+    <p class="auth-subtitle">Update your contact details. Changes take effect immediately.</p>
+
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email.errors }}
+      {{ form.email }}
+
+      <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
+      {{ form.phone_number.errors }}
+      {{ form.phone_number }}
+
+      <button type="submit" class="cta-button">Save changes</button>
+    </form>
+
+    <p class="auth-footer" style="margin-top:16px;">
+      <a href="{% url 'profile' %}">Back to profile</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

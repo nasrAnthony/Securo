@@ -29,7 +29,7 @@
 
       <div class="profile-actions">
         <a href="/quote-form/" class="btn btn-primary">Request a Quote</a>
-        <a href="" class="btn btn-outline">Edit Profile</a>
+        <a href="{% url 'profile_edit' %}" class="btn btn-outline">Edit Profile</a>
       </div>
 
       <div class="profile-stats">
@@ -49,6 +49,11 @@
           <div class="stat-number">{{ counts.cancelled }}</div>
           <div class="stat-label">Cancelled</div>
         </div>
+      </div>
+      <div class="danger-zone" style="margin-top:14px;">
+        <button type="button" class="btn btn-danger open-delete-account-modal">
+          Delete account
+        </button>
       </div>
     </aside>
 
@@ -156,6 +161,32 @@
         </form>
       </div>
     </div>
+        <!-- Delete Account Modal -->
+    <div class="modal" id="delete-account-modal" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="delete-account-modal-title">
+      <div class="modal__overlay" data-close></div>
+
+      <div class="modal__content" role="document">
+        <div class="modal__icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="#dc2626" stroke-width="2"/>
+            <path d="M12 7v6m0 4h.01" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h3 id="delete-account-modal-title">Delete your account?</h3>
+        <p class="modal__text">This will remove your account permanently.
+          All of your quotes will be <strong>cancelled</strong> and detached from your profile.</p>
+
+        <form method="post" action="{% url 'account_delete' %}">
+          {% csrf_token %}
+          <div class="modal__actions">
+            <button type="button" class="btn btn-outline" data-close>Keep my account</button>
+            <button type="submit" class="btn btn-danger">Yes, delete it</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -196,7 +227,33 @@
   });
 })();
 </script>
+  <script>
+  (function () {
+    const quotesList = document.querySelector('.quotes-card .quote-list');
+    if (!quotesList) return;
 
+    function applyMaxRows(list, rows = 7) {
+      const first = list.querySelector('.quote-card');
+      if (!first) return; // nothing to measure yet
+
+      // Height of one card + the grid/flex gap
+      const itemRect = first.getBoundingClientRect();
+      const styles = getComputedStyle(list);
+      const gap = parseFloat(styles.rowGap || styles.gap || '16');
+      const itemH = itemRect.height + (isNaN(gap) ? 16 : gap);
+
+      list.style.maxHeight = Math.round(itemH * rows) + 'px';
+      list.style.overflowY = 'auto';
+    }
+
+    function init() {
+      applyMaxRows(quotesList, 7);
+    }
+
+    window.addEventListener('load', init);
+    window.addEventListener('resize', () => applyMaxRows(quotesList, 7));
+  })();
+  </script>
 <script>
 (function () {
   const root = document.getElementById('profile-panels');
@@ -260,6 +317,32 @@
 })();
 </script>
 
+<script>
+(function () {
+  const modal = document.getElementById('delete-account-modal');
+  if (!modal) return;
+  const openBtn = document.querySelector('.open-delete-account-modal');
+  const closeEls = modal.querySelectorAll('[data-close]');
 
+  function open() {
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('button[type="submit"]')?.focus();
+  }
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn?.addEventListener('click', open);
+  closeEls.forEach(el => el.addEventListener('click', close));
+  modal.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal__overlay')) close();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+})();
+</script>
 
 {% endblock %}

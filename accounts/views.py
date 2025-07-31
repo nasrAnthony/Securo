@@ -3,8 +3,10 @@ from django.contrib.auth import login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed
-from .forms import CustomUserCreationForm, CustomUserLoginForm, QuoteForm
+from .forms import CustomUserCreationForm, CustomUserLoginForm, QuoteForm, EditProfileForm
 from django.db.models import Count, Q
+from django.db import transaction
+from .utils import fetch_orphan_quotes
 from .models import Quote
 
 def register(request):
@@ -13,6 +15,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            fetch_orphan_quotes(user)
             return redirect('home')
     else:
         form = CustomUserCreationForm()
@@ -25,6 +28,7 @@ def login(request):
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
+            fetch_orphan_quotes(user)
             return redirect('home')
     else:
         form = CustomUserLoginForm()
@@ -34,22 +38,32 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+OPEN_STATUS = "active"
 
 def quote_request_view(request):
-    if request.method == 'POST':
-        form = QuoteForm(request.POST)
-        if form.is_valid():
-            quote = form.save(commit=False)
+    form = QuoteForm(request.POST or None)
 
-            if request.user.is_authenticated:
-                quote.user = request.user
+    if request.method == "POST" and form.is_valid():
+        quote = form.save(commit=False)
+        if request.user.is_authenticated:
+            quote.user = request.user
+            if not quote.email:
+                quote.email = request.user.email
+        quote.save()
+        messages.success(request, "Your quote request was received. We’ll be in touch shortly.")
+        return redirect('home')
 
-            quote.save()
-            return redirect('home')
-    else:
-        form = QuoteForm()
+    has_open = False
+    open_count = 0
+    if request.user.is_authenticated:
+        open_count = Quote.objects.filter(user=request.user, status=OPEN_STATUS).count()
+        has_open = open_count > 0
 
-    return render(request, 'quote_form.html', {'form': form})
+    return render(request, 'quote_form.html', {
+        'form': form,
+        'has_open': has_open,
+        'open_count': open_count,
+    })
 
 @login_required
 def profile_view(request):
@@ -97,3 +111,52 @@ def cancel_quote(request, pk):
     quote.save(update_fields=["status"])
     messages.success(request, "Your quote request was cancelled.")
     return redirect("profile")
+
+@login_required
+@transaction.atomic
+def profile_edit(request):
+    user = request.user
+    old_email = user.email
+
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            updated_user = form.save()  # saves email / phone_number
+            new_email = updated_user.email
+
+            # If email changed, update all quotes owned by this user (FK) to reflect the new email
+            if old_email.strip().lower() != (new_email or "").strip().lower():
+                Quote.objects.filter(user=updated_user).exclude(email=new_email).update(email=new_email)
+
+                from accounts.utils import fetch_orphan_quotes
+                fetch_orphan_quotes(updated_user, email=new_email)
+
+                messages.success(request, "Your profile has been updated. We synced your quotes to the new email.")
+            else:
+                messages.success(request, "Your profile has been updated.")
+            return redirect("profile_edit")
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, "accounts/edit_profile.html", {"form": form})
+
+
+@login_required
+@transaction.atomic
+def delete_account(request):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+
+    user = request.user
+    CANCELLED_STATUS = getattr(Quote, "STATUS_CANCELLED", "cancelled")  # or "expired"
+
+    # 1) Cancel + orphan all quotes owned by the user (single UPDATE)
+    Quote.objects.filter(user=user).update(status=CANCELLED_STATUS, user=None)
+
+    # 2) Delete user
+    user.delete()
+
+    # 3) Log out (flush session) and redirect home
+    logout(request)
+    messages.success(request, "Your account has been deleted. Your quotes were cancelled.")
+    return redirect("home")

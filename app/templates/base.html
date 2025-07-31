@@ -116,10 +116,20 @@
             <path class="wave-stroke" d="M0,13 L1000,13" />
         </svg>
   </nav>
+
+  {% if messages %}
+    <div class="flash-container top-center" role="status" aria-live="polite">
+      {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}">
+          <span class="flash__text">{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <main>
     {% block content %}{% endblock %}
   </main>
-
     <script>
     document.addEventListener('mousemove', function(e) {
         const eye = document.querySelector('.eye-icon');
@@ -234,8 +244,6 @@
         tick(); // start the animation loop
         })();
     </script>
-
-
 
     <footer class="site-footer">
         <div class="footer-container">
@@ -422,6 +430,44 @@
     observer.observe(el);
   });
 </script>
+
+  <script>
+    (function(){
+      var toasts = document.querySelectorAll('.flash-container .flash');
+      if (!toasts.length) return;
+
+      function fadeAndRemove(toast){
+        if (!toast || toast.classList.contains('is-leaving')) return;
+
+        // Ensure the transition actually runs
+        requestAnimationFrame(function(){
+          toast.classList.add('is-leaving');
+        });
+
+        var removed = false;
+        function onEnd(e){
+          if (e.target !== toast || e.propertyName !== 'opacity') return;
+          if (removed) return;
+          removed = true;
+          toast.removeEventListener('transitionend', onEnd);
+          toast.remove();
+        }
+        toast.addEventListener('transitionend', onEnd);
+
+        // Fallback in case transitionend doesn't fire
+        setTimeout(function(){
+          if (removed) return;
+          toast.removeEventListener('transitionend', onEnd);
+          toast.remove();
+        }, 800); // slightly longer than the .38s CSS transition
+      }
+
+      toasts.forEach(function(toast){
+        setTimeout(function(){ fadeAndRemove(toast); }, 4000); // wait 4s, then fade
+      });
+    })();
+  </script>
+
 
 
 </body>

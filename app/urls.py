@@ -18,4 +18,6 @@ urlpatterns = [
     path('register/', accounts_views.register, name='register'),
     path('my-profile/', accounts_views.profile_view, name='profile'), 
     path("quotes/<int:pk>/cancel/", accounts_views.cancel_quote, name="quote_cancel"),
+    path('my-profile/edit', accounts_views.profile_edit, name='profile_edit'),
+    path('my-profile/delete', accounts_views.delete_account, name='account_delete')
 ]

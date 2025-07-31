@@ -7,7 +7,8 @@
   <div class="quote-container">
     <h1 class="quote-slogan">Get Your <span class="highlight-you">Quote</span></h1>
 
-    <form class="quote-form" method="post">
+    <form class="quote-form" method="post"
+      data-has-open="{{ has_open|yesno:'true,false' }}">
       {% csrf_token %}
       <div class="form-grid">
 
@@ -116,6 +117,34 @@
       </div>
     </form>
   </div>
+
+  {% if request.user.is_authenticated %}
+  <!-- Open-Quote Warning Modal -->
+  <div class="modal" id="open-quote-warning" aria-hidden="true" role="dialog" aria-modal="true"
+      aria-labelledby="open-quote-warning-title">
+    <div class="modal__overlay" data-close></div>
+
+    <div class="modal__content" role="document">
+      <div class="modal__icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="#b45309" stroke-width="2"/>
+          <path d="M12 7v6m0 4h.01" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h3 id="open-quote-warning-title">You already have an open quote</h3>
+      <p class="modal__text">
+        We found {{ open_count }} open request{{ open_count|pluralize }} on your account.
+        Are you sure you want to submit another?
+      </p>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn-outline" data-close>Keep editing</button>
+        <button type="button" class="btn btn-primary" id="confirm-submit-quote">Submit anyway</button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 </section>
 
 <script>
@@ -149,4 +178,60 @@
     dateInput.setAttribute("min", today);
   }
 </script>
+
+<script>
+(function () {
+  const form = document.querySelector('.quote-form');
+  if (!form) return;
+
+  // Read server-provided flag from the data attribute; default to false.
+  const hasOpen = (form.dataset.hasOpen === 'true');
+
+  const modal = document.getElementById('open-quote-warning');
+  const confirmBtn = document.getElementById('confirm-submit-quote');
+
+  function openModal() {
+    if (!modal) return;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    if (confirmBtn) confirmBtn.focus();
+  }
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  if (modal) {
+    modal.addEventListener('click', function (e) {
+      if (e.target.classList && e.target.classList.contains('modal__overlay')) {
+        closeModal();
+      }
+    });
+    var closers = modal.querySelectorAll('[data-close]');
+    for (var i = 0; i < closers.length; i++) closers[i].addEventListener('click', closeModal);
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  }
+
+  var bypass = false;
+  form.addEventListener('submit', function (e) {
+    if (!bypass && hasOpen) {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function () {
+      bypass = true;
+      closeModal();
+      form.submit();
+    });
+  }
+})();
+</script>
+
+
 {% endblock %}

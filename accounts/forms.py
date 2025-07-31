@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from .models import CustomUser, Quote
 
 class CustomUserCreationForm(UserCreationForm):
@@ -59,3 +59,21 @@ class QuoteForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
             if field.required:
                 field.label_suffix = ' *'  # adds asterisk to required fields
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'phone_number']
+        widgets = {
+            "email": forms.EmailInput(attrs={"placeholder": "you@example.com"}),
+            "phone_number": forms.TextInput(attrs={"placeholder": "+1 555-555-5555"}),
+        }
+
+    def clean_email(self):
+        email = (self.cleaned_data.get("email") or "").strip()
+        if not email:
+            raise forms.ValidationError("Email cannot be empty.")
+        if CustomUser.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("That email is already in use.")
+        return email
