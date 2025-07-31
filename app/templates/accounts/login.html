@@ -1,16 +1,22 @@
 {% extends "base.html" %}
-
 {% block title %}Login - Securo{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<section class="auth-section animate-on-load">
+  <div class="auth-container">
+    <h1 class="auth-title">Welcome Back</h1>
+    <p class="auth-subtitle">Log in to manage your quotes and security services.</p>
 
-<div class="login-footer">
-  <p>Don't have an account? <a href="{% url 'register' %}">Sign up here!</a></p>
-</div>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="cta-button">Login</button>
+    </form> 
+
+    <p class="auth-footer">
+      Don’t have an account?
+      <a href="{% url 'register' %}">Sign up here!</a>
+    </p>
+  </div>
+</section>
 {% endblock %}

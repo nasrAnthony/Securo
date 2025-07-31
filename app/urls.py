@@ -12,8 +12,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'), 
     path('installation/', views.installation_service, name='systemcamera'),
-    path('quote-form/', views.quote, name='quote'),
+    path('quote-form/', accounts_views.quote_request_view, name='quote'),
     path('login/', accounts_views.login, name='login'),
-    path('logout/', accounts_views.logout, name='logout'),
+    path('logout/', accounts_views.logout_view, name='logout'),
     path('register/', accounts_views.register, name='register'),
+    path('my-profile/', accounts_views.profile_view, name='profile'), 
+    path("quotes/<int:pk>/cancel/", accounts_views.cancel_quote, name="quote_cancel"),
 ]

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils import timezone
 from django.db import models
 import uuid
 
@@ -41,6 +42,7 @@ class Quote(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL,null=True, blank=True, related_name='quotes')
     email = models.EmailField(blank=False, db_index=True)
     full_name = models.CharField(max_length=100, blank=False)
+    business_name = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=15, blank=False)
     submitted_at = models.DateTimeField(auto_now_add= True)
     project_details = models.TextField()
@@ -59,15 +61,44 @@ class Quote(models.Model):
         ('Studio', 'Studio'),
     ]
 
+    preferred_date = models.DateField(default=timezone.now)
+    PREFERRED_TIME_CHOICES = [
+        ('9am-12pm', '9:00 AM – 12:00 PM'),
+        ('12pm-3pm', '12:00 PM – 3:00 PM'),
+        ('3pm-6pm', '3:00 PM – 6:00 PM'),
+    ]
+    preferred_time = models.CharField(max_length=20, 
+                                      choices=PREFERRED_TIME_CHOICES, 
+                                        default='9am-12pm')
+
     property_type = models.CharField(
         max_length=20,
         choices=PROPERTY_TYPE_CHOICES,
         blank=False
     )
 
-    status = models.CharField(max_length=20, 
-                            choices=[('active', 'Active'), ('completed', 'Completed'), ('expired', 'Expired')], 
-                            default='active')
+    STATUS_ACTIVE     = 'active'
+    STATUS_COMPLETED  = 'completed'
+    STATUS_EXPIRED    = 'expired'
+    STATUS_CANCELLED  = 'cancelled'
+
+    STATUS_CHOICES = [
+        (STATUS_ACTIVE, 'Active'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_EXPIRED, 'Expired'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_ACTIVE,
+        db_index=True,
+    )
+
+    @property
+    def can_cancel(self) -> bool:
+        return self.status == self.STATUS_ACTIVE
 
 
 class Invoice(models.Model):

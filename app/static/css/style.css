@@ -1141,3 +1141,558 @@ nav.nav-compact .btn-quote { padding: 8px 12px; border-radius: 8px; }
 .login-footer a:hover {
   text-decoration: underline;
 }
+/* ========== Base + Reset ========== */
+*, *::before, *::after {
+  box-sizing: border-box;       /* 100% widths include padding + border */
+}
+
+:root {
+  --brand: #0077ff;
+  --bg: #f5f9ff;
+  --card: #ffffff;
+  --text: #0a1c3d;
+}
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+}
+
+/* ========== Section + Container ========== */
+.auth-section {
+  display: flex;
+  justify-content: center;      /* center the card horizontally */
+  padding: 60px 20px;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;               /* belt-and-suspenders centering */
+  background: var(--card);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.1);
+}
+
+/* ========== Header Text ========== */
+.auth-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.auth-subtitle {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin: 0 0 30px 0;
+}
+
+/* ========== Form Layout ========== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Django {{ form.as_p }} wraps each field in a <p> */
+.auth-form p {
+  margin: 0 0 20px 0;           /* reset any side margins */
+  text-indent: 0;               /* safety reset */
+}
+
+/* Labels */
+.auth-form label {
+  display: block;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 6px 0;
+  text-align: left;
+}
+
+/* Inputs / selects / textareas */
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+/* Focus state for accessibility + consistent outline */
+.auth-form input:focus,
+.auth-form select:focus,
+.auth-form textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.15);
+}
+
+/* Validation / error list from Django */
+.auth-form .errorlist {
+  margin: 6px 0 0 0;
+  padding: 0;
+  list-style: none;
+  color: #b00020;
+  font-size: 0.875rem;
+}
+
+/* ========== Buttons ========== */
+.auth-form .cta-button {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 600;
+  background: linear-gradient(to right, var(--brand), #3e84ff);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.cta-button:hover {
+  filter: brightness(0.95);
+}
+
+/* ========== Footer ========== */
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-footer a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-footer a:hover { text-decoration: underline; }
+
+/* ========== Small Screens ========== */
+@media (max-width: 480px) {
+  .auth-container { padding: 28px; }
+  .auth-title { font-size: 1.75rem; }
+}
+
+
+
+
+
+
+
+/* -------- Container & grid -------- */
+.profile-container {
+  max-width: 1120px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* -------- Cards -------- */
+.profile-card,
+.quotes-card,
+.quote-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.08);
+}
+
+.profile-card { padding: 24px; }
+.quotes-card  { padding: 24px; }
+
+.quote-card {
+  padding: 18px 20px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.quote-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 123, 255, 0.12);
+}
+
+/* -------- Profile header -------- */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 64px; height: 64px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand, #0077ff), #3e84ff);
+  color: #fff; font-weight: 800; font-size: 1.5rem;
+  display: grid; place-items: center;
+  box-shadow: 0 6px 14px rgba(0, 119, 255, 0.3);
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+  color: #0a1c3d;
+}
+
+.profile-tagline {
+  margin: 2px 0 0 0;
+  color: #6b7280;
+  font-size: .95rem;
+}
+
+/* -------- Contact rows -------- */
+.profile-contact { margin-top: 14px; }
+.contact-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; border: 1px solid #eef3ff; border-radius: 12px;
+  background: #f8fbff; margin-bottom: 10px;
+}
+.contact-label { color: #475569; font-weight: 600; }
+.contact-value { color: #0a1c3d; text-decoration: none; }
+.contact-value:hover { text-decoration: underline; }
+
+/* -------- Actions & buttons -------- */
+.profile-actions { display: flex; gap: 12px; margin-top: 14px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 16px; border-radius: 12px; font-weight: 600;
+  border: 0; cursor: pointer; text-decoration: none;
+  transition: filter .15s ease;
+}
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand, #0077ff), #3e84ff);
+  box-shadow: 0 6px 16px rgba(0, 119, 255, 0.25);
+}
+.btn-outline {
+  background: #fff;
+  color: var(--brand, #0077ff);
+  border: 1px solid rgba(0, 119, 255, 0.25);
+}
+.btn-link {
+  background: transparent; color: var(--brand, #0077ff);
+  padding: 0; border-radius: 8px;
+}
+.btn:hover { filter: brightness(.96); }
+
+/* -------- Stats -------- */
+.profile-stats {
+  margin-top: 16px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.stat {
+  background: #f5f9ff; border-radius: 12px; padding: 12px; text-align: center;
+}
+.stat-number { font-weight: 800; font-size: 1.1rem; color: #0a1c3d; }
+.stat-label  { font-size: .8rem; color: #64748b; }
+
+/* -------- Quotes list -------- */
+.quotes-header h2 {
+  margin: 0 0 12px 0; font-size: 1.25rem; font-weight: 800; color: #0a1c3d;
+}
+.quote-list { display: grid; gap: 12px; }
+
+.quote-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.date { color: #65758b; font-size: .9rem; }
+
+.quote-excerpt {
+  margin: 0 0 10px 0; color: #334155; line-height: 1.5;
+}
+
+/* Status chips (map your statuses to these slug classes) */
+.status {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 999px; font-weight: 700; font-size: .75rem;
+  background: #f1f5ff; color: #0a1c3d; border: 1px solid rgba(0,119,255,.15);
+}
+.status--new,
+.status--open,
+.status--submitted { background: #eef6ff; color: #0b63ce; }
+
+.status--in-review,
+.status--reviewing { background: #fff7ed; color: #b45309; }
+
+.status--scheduled,
+.status--in-progress { background: #f0fdf4; color: #15803d; }
+
+.status--completed,
+.status--approved { background: #ecfdf5; color: #047857; }
+
+.status--declined,
+.status--rejected { background: #fef2f2; color: #b91c1c; }
+
+/* -------- Empty state -------- */
+.empty-state {
+  text-align: center; padding: 40px 12px; border: 2px dashed #e5efff;
+  border-radius: 16px; background: #fbfdff;
+}
+.empty-state h3 { margin: 0 0 6px 0; font-weight: 800; color: #0a1c3d; }
+.empty-state p { margin: 0 0 16px 0; color: #6b7280; }
+
+/* -------- Responsive -------- */
+@media (max-width: 960px) {
+  .profile-grid { grid-template-columns: 1fr; }
+  .profile-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .profile-stats { grid-template-columns: 1fr 1fr; }
+  .profile-actions { flex-direction: column; }
+}
+
+
+/* replace your current .contact-row and value rules */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;                 /* always keep space between label/value */
+  padding: 10px 12px;
+  border: 1px solid #eef3ff;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+/* Label stays as-is */
+.contact-label { 
+  color: #475569; 
+  font-weight: 600; 
+  white-space: nowrap;
+}
+
+/* Value is allowed to shrink and ellipsize on one line */
+.contact-value {
+  margin-left: auto;         /* push to the right */
+  min-width: 0;              /* IMPORTANT: allow shrinking inside flex */
+  text-align: right;
+  white-space: nowrap;       /* keep one line */
+  overflow: hidden;          /* clip overflow */
+  text-overflow: ellipsis;   /* show … when too long */
+}
+
+
+/* Keep status + cancel button on one row with spacing */
+.status-and-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Inline form so the button sits beside the chip */
+.inline-cancel-form { display: inline; }
+
+/* Ghost/outline cancel button that matches your aesthetic */
+.btn-ghost.btn-cancel {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  background: #fff;
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.25);
+  transition: filter .15s ease, background .15s ease, border-color .15s ease;
+}
+.btn-ghost.btn-cancel:hover {
+  background: #fff5f5;
+  border-color: rgba(185, 28, 28, 0.45);
+}
+
+/* Add a red style for the new status chip */
+.status--cancelled {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, .2);
+}
+
+
+/* ===== Modal ===== */
+.modal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: grid; place-items: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease;
+}
+.modal.is-open { opacity: 1; pointer-events: auto; }
+
+.modal__overlay {
+  position: absolute; inset: 0;
+  background: rgba(10, 28, 61, 0.55);
+  backdrop-filter: blur(1px);
+}
+
+.modal__content {
+  position: relative;
+  width: min(520px, 92vw);
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .15);
+  transform: translateY(10px) scale(.98);
+  transition: transform .2s ease;
+}
+.modal.is-open .modal__content { transform: translateY(0) scale(1); }
+
+.modal__icon {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: #fff5f5;
+  margin-bottom: 12px;
+}
+
+#cancel-modal-title {
+  margin: 0 0 6px 0;
+  font-weight: 800; color: #0a1c3d;
+}
+
+.modal__text { margin: 0 0 16px 0; color: #475569; }
+
+.modal__actions {
+  display: flex; justify-content: flex-end; gap: 10px;
+}
+
+/* Button additions to match your system */
+.btn-danger {
+  color: #fff;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  border: 0;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, .2);
+}
+.btn-danger:hover { filter: brightness(.96); }  
+
+.btn-ghost.btn-cancel {
+  padding: 6px 10px; border-radius: 10px; font-weight: 700;
+  background: #fff; color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.25);
+}
+.btn-ghost.btn-cancel:hover {
+  background: #fff5f5; border-color: rgba(185, 28, 28, 0.45);
+}
+
+/* Keep status + cancel tight */
+.status-and-actions { display: inline-flex; align-items: center; gap: 10px; }
+
+
+/* ===== Panels carousel ===== */
+.panel-carousel {
+  position: relative;
+}
+
+.carousel-viewport {
+  overflow: hidden; /* hide overflow so arrows sit on edges cleanly */
+}
+
+.panels {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;      /* each panel fills the viewport */
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;          /* avoid scrollbar overlap */
+}
+
+/* hide scrollbars (keeps keyboard/scroll functional) */
+.panels::-webkit-scrollbar { display: none; }
+.panels { scrollbar-width: none; }
+
+/* Each card is a snap point */
+.panel-card {
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.08);
+  padding: 24px;
+}
+
+/* ===== Arrows ===== */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px; height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, .06);
+  background: linear-gradient(135deg, var(--brand, #0077ff), #3e84ff);
+  color: #fff;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 16px rgba(0, 119, 255, .25);
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+  z-index: 2;
+}
+
+.carousel-arrow.right { right: -14px; }  /* sits hugging the card edge */
+.carousel-arrow.left  { left: -14px; }
+
+.carousel-arrow:hover { filter: brightness(.95); transform: translateY(-50%) scale(1.03); }
+.carousel-arrow:disabled {
+  opacity: .35; cursor: default; filter: none;
+  background: #eef3ff; color: #8aa3d1;
+  box-shadow: none;
+}
+
+/* Responsive: pull arrows inside on small screens */
+@media (max-width: 720px) {
+  .carousel-arrow.right { right: 8px; }
+  .carousel-arrow.left  { left: 8px; }
+}
+
+.carousel-viewport {
+  transition: height .25s ease; /* optional but looks nicer */
+}
+
+/* Don't make every panel the height of the tallest one */
+.panels { 
+  align-items: start;               /* <-- important */
+}
+
+/* (Optional) ensure each card follows its own content height */
+.panel-card { 
+  align-self: start;                /* belt-and-suspenders */
+}
+
+/* Smooth height change when we adjust it in JS */
+.carousel-viewport {
+  overflow: hidden;
+  transition: height .25s ease;
+}
+
+
+/* smoother resize of the right pane */
+.carousel-viewport {
+  overflow: hidden;
+  transition: height .38s cubic-bezier(.22,.61,.36,1); /* gentler ease */
+}
+
+/* make arrow appearance/disappearance animated */
+.carousel-arrow {
+  will-change: transform, opacity;            /* keeps motion crisp */
+  transition: opacity .28s ease, transform .28s ease, filter .12s ease;
+}
+
+/* when an arrow is "off" (at the start/end) fade/scale it out */
+.carousel-arrow.is-off {
+  opacity: 0;
+  transform: translateY(-50%) scale(.9);
+  pointer-events: none;                        /* not clickable */
+  box-shadow: none;
+}
+
+/* optional: less abrupt snapping between panels */
+.panels { scroll-snap-type: x proximity; }     /* instead of "mandatory" */

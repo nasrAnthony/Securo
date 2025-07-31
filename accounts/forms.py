@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate
-from .models import CustomUser
+from .models import CustomUser, Quote
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta: 
@@ -36,3 +36,26 @@ class CustomUserLoginForm(forms.Form):
 
     def get_user(self):
         return self.user
+    
+
+class QuoteForm(forms.ModelForm):
+    class Meta:
+        model = Quote
+        fields = [ 
+            'full_name', 'business_name', 'email', 'phone_number', 'project_details', 'address', 'unit',
+            'city', 'province', 'postal_code', 'property_type', 'preferred_date', 'preferred_time'
+        ]
+        widgets = {
+            'preferred_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'preferred_time': forms.Select(attrs={'class': 'form-control'}),
+            'project_details': forms.Textarea(attrs={
+                'rows': 4, 'placeholder': 'Please provide as much info as possible...'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            if field.required:
+                field.label_suffix = ' *'  # adds asterisk to required fields

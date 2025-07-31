@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% block title %}Your Profile{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <div class="profile-grid">
+
+    <!-- ========= Left: Profile summary ========= -->
+    <aside class="profile-card animate-on-scroll from-up">
+      <div class="profile-header">
+        <div>
+          <h1 class="profile-name">{{ user.full_name }}</h1>
+          <p class="profile-tagline">Welcome back to Securo 👋</p>
+        </div>
+      </div>
+
+      <div class="profile-contact">
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <a class="contact-value">{{ user.email }}</a>
+        </div>
+        {% if user.phone_number %}
+        <div class="contact-row">
+          <span class="contact-label">Phone</span>
+          <a class="contact-value">{{ user.phone_number }}</a>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="profile-actions">
+        <a href="/quote-form/" class="btn btn-primary">Request a Quote</a>
+        <a href="" class="btn btn-outline">Edit Profile</a>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat">
+          <div class="stat-number">{{ counts.total }}</div>
+          <div class="stat-label">Total Quotes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">{{ counts.open }}</div>
+          <div class="stat-label">Open</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">{{ counts.completed }}</div>
+          <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">{{ counts.cancelled }}</div>
+          <div class="stat-label">Cancelled</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========= Right: Panels carousel (Quotes + Invoices) ========= -->
+    <main class="panel-carousel animate-on-scroll from-right" id="profile-panels">
+      <!-- Arrows (JS will enable/disable) -->
+      <button class="carousel-arrow left" aria-label="Previous" disabled>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="carousel-arrow right" aria-label="Next">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <div class="panels">
+          <!-- ===== Panel 1: Your Quote Requests ===== -->
+          <section class="panel-card quotes-card">
+            <div class="quotes-header">
+              <h2>Your Quote Requests</h2>
+            </div>
+
+            {% if quotes %}
+              <div class="quote-list">
+                {% for quote in quotes %}
+                  <article class="quote-card">
+                    <header class="quote-card-header">
+                      <span class="date">{{ quote.submitted_at|date:"M d, Y" }}</span>
+
+                      <div class="status-and-actions">
+                        <span class="status status--{{ quote.status|lower|slugify }}">
+                          {{ quote.status|title }}
+                        </span>
+
+                        {% if quote.can_cancel %}
+                          <button
+                            type="button"
+                            class="btn btn-ghost btn-cancel open-cancel-modal"
+                            data-action="{% url 'quote_cancel' quote.id %}"
+                            data-title="Cancel quote from {{ quote.submitted_at|date:'M d, Y' }}?"
+                          >Cancel</button>
+                        {% endif %}
+                      </div>
+                    </header>
+
+                    <p class="quote-excerpt">
+                      {{ quote.project_details|default:"(No details provided)"|truncatechars:140 }}
+                    </p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="empty-state">
+                <h3>No quotes yet</h3>
+                <p>Ready to protect what matters? Start your first request—our team will follow up quickly.</p>
+                <a href="/quote-form/" class="btn btn-primary">Get a Free Quote</a>
+              </div>
+            {% endif %}
+          </section>
+
+          <!-- ===== Panel 2: Your Invoices (empty for now) ===== -->
+          <section class="panel-card invoices-card">
+            <div class="quotes-header">
+              <h2>Your Invoices</h2>
+            </div>
+            <div class="empty-state">
+              <h3>No invoices yet</h3>
+              <p>When invoices are available, you’ll see them here.</p>
+              <a href="/quote-form/" class="btn btn-primary">Start a Quote</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========= Cancel Confirmation Modal ========= -->
+    <div class="modal" id="cancel-modal" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="cancel-modal-title">
+      <div class="modal__overlay" data-close></div>
+
+      <div class="modal__content" role="document">
+        <div class="modal__icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="#dc2626" stroke-width="2"/>
+            <path d="M12 7v6m0 4h.01" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h3 id="cancel-modal-title">Cancel this quote?</h3>
+        <p class="modal__text">
+          This will mark your request as <strong>Cancelled</strong>. You can submit a new request anytime.
+        </p>
+
+        <form id="cancel-modal-form" method="post" action="">
+          {% csrf_token %}
+          <div class="modal__actions">
+            <button type="button" class="btn btn-outline" data-close>Keep quote</button>
+            <button type="submit" class="btn btn-danger">Yes, cancel it</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+(function () {
+  const modal = document.getElementById('cancel-modal');
+  const form  = document.getElementById('cancel-modal-form');
+  const title = document.getElementById('cancel-modal-title');
+  const openers = document.querySelectorAll('.open-cancel-modal');
+  const closeEls = modal.querySelectorAll('[data-close]');
+  let lastFocused = null;
+
+  function open(action, customTitle) {
+    lastFocused = document.activeElement;
+    form.action = action;
+    if (customTitle) title.textContent = customTitle;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.btn-danger').focus();
+  }
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  openers.forEach(btn => {
+    btn.addEventListener('click', () => open(btn.dataset.action, btn.dataset.title));
+  });
+  closeEls.forEach(el => el.addEventListener('click', close));
+  modal.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal__overlay')) close();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+})();
+</script>
+
+<script>
+(function () {
+  const root = document.getElementById('profile-panels');
+  if (!root) return;
+
+  const scroller = root.querySelector('.panels');
+  const viewport = root.querySelector('.carousel-viewport');
+  const leftBtn  = root.querySelector('.carousel-arrow.left');
+  const rightBtn = root.querySelector('.carousel-arrow.right');
+  const panels   = Array.from(scroller.querySelectorAll('.panel-card'));
+
+  const page = () => viewport.clientWidth;
+
+  function activeIndex() {
+    return Math.round(scroller.scrollLeft / page());
+  }
+
+  function fitHeight(idx = activeIndex()) {
+    const panel = panels[idx] || panels[0];
+    if (!panel) return;
+    viewport.style.height = panel.offsetHeight + 'px';
+  }
+
+  function updateArrows() {
+    const max = scroller.scrollWidth - scroller.clientWidth - 1;
+    const atStart = scroller.scrollLeft <= 0;
+    const atEnd   = scroller.scrollLeft >= max;
+
+    leftBtn.disabled  = atStart;
+    rightBtn.disabled = atEnd;
+
+    leftBtn.classList.toggle('is-off', atStart);
+    rightBtn.classList.toggle('is-off', atEnd);
+  }
+
+  function go(dir) {
+    const target = Math.min(Math.max(activeIndex() + dir, 0), panels.length - 1);
+    fitHeight(target);                                      // pre-size for nicer morph
+    scroller.scrollBy({ left: dir * page(), behavior: 'smooth' });
+  }
+
+  leftBtn.addEventListener('click', () => go(-1));
+  rightBtn.addEventListener('click', () => go(1));
+
+  scroller.addEventListener('scroll', () => {
+    requestAnimationFrame(() => {
+      updateArrows();
+      fitHeight();
+    });
+  });
+
+  window.addEventListener('resize', () => requestAnimationFrame(() => {
+    fitHeight();
+    updateArrows();
+  }));
+
+  // init
+  updateArrows();
+  fitHeight();
+  window.addEventListener('load', fitHeight);
+})();
+</script>
+
+
+
+{% endblock %}

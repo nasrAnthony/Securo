@@ -1,15 +1,22 @@
 {% extends "base.html" %}
-
-{% block title %}About Us - Security Systems{% endblock %}
+{% block title %}Create Account - Securo{% endblock %}
 
 {% block content %}
-<h2>Create Account</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-</form>
-<div class="login-footer">
-  <p>Already have an account? <a href="{% url 'login' %}">Login here!</a></p>
-</div>
+<section class="auth-section animate-on-scroll from-up">
+  <div class="auth-container">
+    <h1 class="auth-title">Sart <span class= "highlight-you">Your</span> Journey</h1>
+    <p class="auth-subtitle">Create your account and start protecting what matters.</p>
+
+    <form method="POST" class="auth-form animate-on-scroll from-up">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="cta-button">Sign Up</button>
+    </form>
+
+    <p class="auth-footer animate-on-scroll from-up">
+      Already have an account?
+      <a href="{% url 'login' %}">Login here!</a>
+    </p>
+  </div>
+</section>
 {% endblock %}

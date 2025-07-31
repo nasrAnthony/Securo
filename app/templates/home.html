@@ -59,31 +59,5 @@
   </div>
 </section>
 
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      document.querySelectorAll('.animate-on-load').forEach(el => {
-        el.classList.add('visible');
-      });
-    }, 100); // small delay to ensure smoother entry
-  });
-</script>
-
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // optional: remove once visible
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
-
-  document.querySelectorAll('.animate-on-scroll').forEach(el => {
-    observer.observe(el);
-  });
-</script>
 
 {% endblock %}

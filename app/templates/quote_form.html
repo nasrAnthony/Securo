@@ -9,68 +9,84 @@
 
     <form class="quote-form" method="post">
       {% csrf_token %}
-
       <div class="form-grid">
+
+        <!-- Full Name -->
         <div class="form-group">
-          <label for="full_name" class="required-label">Full Name</label>
-          <input type="text" id="full_name" name="full_name" required>
+          {{ form.full_name.label_tag }}
+          {{ form.full_name }}
+          {{ form.full_name.errors }}
         </div>
 
         <div class="form-group">
-          <label for="business_name">Business Name (if applicable)</label>
-          <input type="text" id="business_name" name="business_name">
+          {{ form.business_name.label_tag }}
+          {{ form.business_name }}
+          {{ form.business_name.errors }}
         </div>
 
+        <!-- Email -->
         <div class="form-group">
-          <label for="email" class="required-label">Email</label>
-          <input type="email" id="email" name="email" required>
+          {{ form.email.label_tag }}
+          {{ form.email }}
+          {{ form.email.errors }}
         </div>
 
+        <!-- Phone -->
         <div class="form-group">
-          <label for="phone" class="required-label">Phone Number</label>
-          <input type="tel" id="phone" name="phone" required>
+          {{ form.phone_number.label_tag }}
+          {{ form.phone_number }}
+          {{ form.phone_number.errors }}
         </div>
 
+        <!-- Project Details -->
         <div class="form-group form-full">
-          <label for="details" class="required-label">Project Details</label>
-          <textarea id="details" name="details" rows="4" placeholder="Please provide as much info as possible..."></textarea>
+          {{ form.project_details.label_tag }}
+          {{ form.project_details }}
+          {{ form.project_details.errors }}
         </div>
 
+        <!-- Address -->
         <div class="form-group">
-          <label for="address" class="required-label">Address</label>
-          <input type="text" id="address" name="address" required>
+          {{ form.address.label_tag }}
+          {{ form.address }}
+          {{ form.address.errors }}
         </div>
 
+        <!-- Unit -->
         <div class="form-group">
-          <label for="unit">Unit/Suite</label>
-          <input type="text" id="unit" name="unit">
+          {{ form.unit.label_tag }}
+          {{ form.unit }}
+          {{ form.unit.errors }}
         </div>
 
+        <!-- City -->
         <div class="form-group">
-          <label for="city" class="required-label">City</label>
-          <input type="text" id="city" name="city" required>
+          {{ form.city.label_tag }}
+          {{ form.city }}
+          {{ form.city.errors }}
         </div>
 
+        <!-- Province -->
         <div class="form-group">
-          <label for="province" class="required-label">Province</label>
-          <input type="text" id="province" name="province" required>
+          {{ form.province.label_tag }}
+          {{ form.province }}
+          {{ form.province.errors }}
         </div>
 
+        <!-- Postal Code -->
         <div class="form-group">
-          <label for="postal" class="required-label">Postal Code</label>
-          <input type="text" id="postal" name="postal" required>
+          {{ form.postal_code.label_tag }}
+          {{ form.postal_code }}
+          {{ form.postal_code.errors }}
         </div>
 
+        <!-- Property Type (radio group) -->
         <div class="form-group form-full">
-          <label>Property Type</label>
+          {{ form.property_type.label_tag }}
           <div class="radio-group">
-            <label><input type="radio" name="property_type" value="Commercial" required> Commercial</label>
-            <label><input type="radio" name="property_type" value="Single Home"> Single Home</label>
-            <label><input type="radio" name="property_type" value="Town House"> Town House</label>
-            <label><input type="radio" name="property_type" value="Apartment"> Apartment</label>
-            <label><input type="radio" name="property_type" value="Condo"> Condo</label>
-            <label><input type="radio" name="property_type" value="Studio"> Studio</label>
+            {{ form.property_type }}
           </div>
+          {{ form.property_type.errors }}
         </div>
 
         <!-- Consultation Date -->
@@ -81,24 +97,22 @@
               <span class="tooltip-text">Pick a date that works best for an in-person or virtual consultation.</span>
             </span>
           </label>
-          <input type="date" id="consultation_date" name="consultation_date" required min="{{ today }}">
+          {{ form.preferred_date }}
+          {{ form.preferred_date.errors }}
         </div>
 
         <!-- Consultation Time -->
         <div class="form-group">
-          <label for="consultation_time" class="required-label">Preferred Time Slot</label>
-          <select id="consultation_time" name="consultation_time" required>
-            <option value="" disabled selected>Select a time slot</option>
-            <option value="9am-12pm">9:00 AM – 12:00 PM</option>
-            <option value="12pm-3pm">12:00 PM – 3:00 PM</option>
-            <option value="3pm-6pm">3:00 PM – 6:00 PM</option>
-          </select>
+          {{ form.preferred_time.label_tag }}
+          {{ form.preferred_time }}
+          {{ form.preferred_time.errors }}
         </div>
 
-
+        <!-- Submit -->
         <div class="form-group form-full">
           <button type="submit" class="cta-button">Request a Quote</button>
         </div>
+
       </div>
     </form>
   </div>
@@ -110,16 +124,14 @@
       document.querySelectorAll('.animate-on-load').forEach(el => {
         el.classList.add('visible');
       });
-    }, 100); // small delay to ensure smoother entry
+    }, 100);
   });
-</script>
 
-<script>
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // optional: remove once visible
+        observer.unobserve(entry.target);
       }
     });
   }, {
@@ -129,11 +141,12 @@
   document.querySelectorAll('.animate-on-scroll').forEach(el => {
     observer.observe(el);
   });
-</script>
 
-<script>
-  // Set minimum date to today for the consultation date picker
+  // Set minimum date to today for consultation date
   const today = new Date().toISOString().split('T')[0];
-  document.getElementById("consultation_date").setAttribute("min", today);
+  const dateInput = document.getElementById("id_preferred_date");
+  if (dateInput) {
+    dateInput.setAttribute("min", today);
+  }
 </script>
 {% endblock %}
